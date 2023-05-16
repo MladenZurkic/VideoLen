@@ -25,7 +25,8 @@ def getDurationForDirectory(path, level):
                 index = path.rfind("\\")
                 print("\t" * (level - 1) + path[index + 1:])
                 first = False
-            print("\t" * (level-1) + "├──" +  filename[:40] + "...  - ", end="")
+            stringTest = "\t" * (level-1) + "├──" +  filename[:40] + "...  - "
+            print(f'{stringTest:<50}', end="")
             seconds = with_moviepy(path + '\\' + filename)
             subtotalSeconds += seconds
             totalSeconds += seconds
@@ -39,10 +40,16 @@ def getDurationForDirectory(path, level):
 if __name__ == '__main__':
     extensions = ('.mp4', '.flv', '.webm', '.mkv', 'vob', '.avi', '.m4v')
     allDirs = 0
-    dirc = input("input directory: ")
-    # allDirs = input("Search all subfolders(1) or only this directory(0)? ")
-    print("Searching for most popular video formats..")
+    allTotal = 0
+    while(True):
+        dirc = input("input directory: ")
+        if(dirc == ""):
+            exit(0);
+        # allDirs = input("Search all subfolders(1) or only this directory(0)? ")
 
-    total = getDurationForDirectory(dirc, 1)
+        print("Searching for most popular video formats..")
+        total = getDurationForDirectory(dirc, 1)
+        allTotal += total;
 
-    print("TOTAL: " +str(datetime.timedelta(seconds=total)))
+        print(f'{"TOTAL:":<10}' +str(datetime.timedelta(seconds=total)))
+        print(f'{"ALL TOTAL:":<10}' + str(datetime.timedelta(seconds=allTotal)))
